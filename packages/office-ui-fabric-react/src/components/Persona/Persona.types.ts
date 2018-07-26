@@ -139,6 +139,11 @@ export interface IPersonaSharedProps extends React.HTMLAttributes<PersonaBase> {
    * @deprecated Use 'text' instead.
    */
   primaryText?: string;
+
+  /**
+   * Optional: Show color ring if there is a picture
+   */
+  showColorRing?: boolean;
 }
 
 export interface IPersonaProps extends IPersonaSharedProps {
@@ -262,6 +267,8 @@ export interface IPersonaCoinStyleProps {
    * Decides whether to display coin for unknown persona
    */
   showUnknownPersonaCoin?: boolean;
+
+  showColorRing?: boolean;
 }
 
 export interface IPersonaCoinStyles {

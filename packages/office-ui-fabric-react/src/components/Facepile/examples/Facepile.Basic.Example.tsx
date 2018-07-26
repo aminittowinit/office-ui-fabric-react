@@ -7,12 +7,14 @@ import { Slider } from 'office-ui-fabric-react/lib/Slider';
 import { facepilePersonas } from './FacepileExampleData';
 import './Facepile.Examples.scss';
 import * as exampleStylesImport from '../../../common/_exampleStyles.scss';
+import { Toggle } from 'office-ui-fabric-react/lib/components/Toggle';
 const exampleStyles: any = exampleStylesImport;
 
 export interface IFacepileBasicExampleState {
   numberOfFaces: any;
   imagesFadeIn: boolean;
   personaSize: PersonaSize;
+  showColorRing: boolean;
 }
 
 export class FacepileBasicExample extends React.Component<{}, IFacepileBasicExampleState> {
@@ -22,7 +24,8 @@ export class FacepileBasicExample extends React.Component<{}, IFacepileBasicExam
     this.state = {
       numberOfFaces: 3,
       imagesFadeIn: true,
-      personaSize: PersonaSize.size32
+      personaSize: PersonaSize.size32,
+      showColorRing: false
     };
   }
 
@@ -34,7 +37,8 @@ export class FacepileBasicExample extends React.Component<{}, IFacepileBasicExam
       overflowPersonas: facepilePersonas.slice(numberOfFaces),
       getPersonaProps: (persona: IFacepilePersona) => {
         return {
-          imageShouldFadeIn: this.state.imagesFadeIn
+          imageShouldFadeIn: this.state.imagesFadeIn,
+          showColorRing: this.state.showColorRing
         };
       },
       ariaDescription: 'To move through the items use left and right arrow keys.'
@@ -71,6 +75,13 @@ export class FacepileBasicExample extends React.Component<{}, IFacepileBasicExam
             checked={this.state.imagesFadeIn}
             onChange={this._onChangeFadeIn}
           />
+
+          <Checkbox
+            className={exampleStyles.exampleCheckbox}
+            label="Show Ring"
+            checked={this.state.showColorRing}
+            onChange={this._onShowColorRing}
+          />
         </div>
       </div>
     );
@@ -80,6 +91,15 @@ export class FacepileBasicExample extends React.Component<{}, IFacepileBasicExam
     this.setState(
       (prevState: IFacepileBasicExampleState): IFacepileBasicExampleState => {
         prevState.imagesFadeIn = checked!;
+        return prevState;
+      }
+    );
+  };
+
+  private _onShowColorRing = (ev: React.FormEvent<HTMLElement | HTMLInputElement>, checked: boolean): void => {
+    this.setState(
+      (prevState: IFacepileBasicExampleState): IFacepileBasicExampleState => {
+        prevState.showColorRing = checked;
         return prevState;
       }
     );

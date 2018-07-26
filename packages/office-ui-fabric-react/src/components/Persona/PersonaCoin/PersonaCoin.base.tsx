@@ -81,13 +81,15 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
       onRenderInitials = this._onRenderInitials,
       presence,
       showInitialsUntilImageLoads,
-      theme
+      theme,
+      showColorRing
     } = this.props;
 
     const size = this.props.size as PersonaSize;
     const divProps = getNativeProps(this.props, divProperties);
     const coinSizeStyle = coinSize ? { width: coinSize, height: coinSize } : undefined;
     const hideImage = showUnknownPersonaCoin;
+    const backgroundColor = initialsColorPropToColorCode(this.props);
 
     const personaPresenceProps: IPersonaPresenceProps = {
       coinSize,
@@ -101,15 +103,18 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
       theme: theme!,
       className: coinProps && coinProps.className ? coinProps.className : className,
       size,
-      showUnknownPersonaCoin
+      showUnknownPersonaCoin,
+      showColorRing: showColorRing
     });
 
     const shouldRenderInitials = Boolean(
       (showInitialsUntilImageLoads && imageUrl) || !imageUrl || this.state.isImageError || hideImage
     );
 
+    const ringColorStyle = showColorRing ? { borderColor: backgroundColor } : {};
+
     return (
-      <div {...divProps} className={classNames.coin}>
+      <div {...divProps} className={classNames.coin} style={ringColorStyle}>
         {// Render PersonaCoin if size is not size10
         size !== PersonaSize.size10 && size !== PersonaSize.tiny ? (
           <div {...coinProps} className={classNames.imageArea} style={coinSizeStyle}>
@@ -118,7 +123,7 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
                 <div
                   className={mergeStyles(
                     classNames.initials,
-                    !showUnknownPersonaCoin && { backgroundColor: initialsColorPropToColorCode(this.props) }
+                    !showUnknownPersonaCoin && { backgroundColor: backgroundColor }
                   )}
                   style={coinSizeStyle}
                   aria-hidden="true"
@@ -150,7 +155,8 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
       imageShouldFadeIn,
       imageShouldStartVisible,
       theme,
-      showUnknownPersonaCoin
+      showUnknownPersonaCoin,
+      showColorRing
     } = this.props;
 
     const size = this.props.size as PersonaSize;
@@ -158,16 +164,18 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
     const classNames = getClassNames(styles, {
       theme: theme!,
       size,
-      showUnknownPersonaCoin
+      showUnknownPersonaCoin,
+      showColorRing: showColorRing
     });
-
+    const csize = coinSize || SIZE_TO_PIXELS[size];
+    const dsize = coinSize || SIZE_TO_PIXELS[size];
     return (
       <Image
         className={classNames.image}
         imageFit={ImageFit.cover}
         src={imageUrl}
-        width={coinSize || SIZE_TO_PIXELS[size]}
-        height={coinSize || SIZE_TO_PIXELS[size]}
+        width={csize}
+        height={csize}
         alt={imageAlt}
         shouldFadeIn={imageShouldFadeIn}
         shouldStartVisible={imageShouldStartVisible}

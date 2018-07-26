@@ -67,6 +67,8 @@ export interface IFacepileProps extends React.Props<FacepileBase> {
   /** Type of overflow icon to use */
   overflowButtonType?: OverflowButtonType;
 
+  showColorRing?: boolean;
+
   /** Method to access properties on the underlying Persona control */
   getPersonaProps?: (persona: IFacepilePersona) => IPersonaSharedProps;
 }

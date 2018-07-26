@@ -128,6 +128,7 @@ export class FacepileBase extends BaseComponent<IFacepileProps, {}> {
       <Persona
         imageInitials={persona.imageInitials}
         imageUrl={persona.imageUrl}
+        showColorRing={this.props.showColorRing}
         initialsColor={persona.initialsColor}
         allowPhoneInitials={persona.allowPhoneInitials}
         text={persona.personaName}
@@ -148,6 +149,7 @@ export class FacepileBase extends BaseComponent<IFacepileProps, {}> {
         allowPhoneInitials={persona.allowPhoneInitials}
         text={persona.personaName}
         size={personaSize}
+        showColorRing={this.props.showColorRing}
         {...(getPersonaProps ? getPersonaProps(persona) : null)}
       />
     );

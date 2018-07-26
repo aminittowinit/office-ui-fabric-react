@@ -46,6 +46,7 @@ export class PersonaBase extends BaseComponent<IPersonaProps, {}> {
       className,
       coinProps,
       showUnknownPersonaCoin,
+      showColorRing,
       coinSize,
       styles,
       imageAlt,
@@ -80,6 +81,7 @@ export class PersonaBase extends BaseComponent<IPersonaProps, {}> {
       presence,
       showInitialsUntilImageLoads,
       size,
+      showColorRing,
       text: this._getText()
     };
 

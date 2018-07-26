@@ -30,6 +30,12 @@ export const getStyles = (props: IPersonaCoinStyleProps): IPersonaCoinStyles => 
   // Static colors used when displaying 'unknown persona' coin
   const unknownPersonaBackgroundColor = palette.neutralLight;
   const unknownPersonaFontColor = palette.redDark;
+  const ring = {
+    borderWidth: '1',
+    borderStyle: 'solid',
+    padding: '2px',
+    borderRadius: '50%'
+  };
 
   return {
     coin: [
@@ -44,9 +50,9 @@ export const getStyles = (props: IPersonaCoinStyleProps): IPersonaCoinStyles => 
       size.isSize48 && classNames.size48,
       size.isSize72 && classNames.size72,
       size.isSize100 && classNames.size100,
+      props.showColorRing && !size.isSize10 && ring,
       className
     ],
-
     size10WithoutPresenceIcon: {
       fontSize: '10px',
       position: 'absolute',

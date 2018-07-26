@@ -5,13 +5,15 @@ import './PersonaExample.scss';
 const examplePersona: IPersonaSharedProps = {
   secondaryText: 'Designer',
   tertiaryText: 'In a meeting',
-  optionalText: 'Available at 4:00pm'
+  optionalText: 'Available at 4:00pm',
+  showColorRing: true
 };
 
 const personaWithInitials: IPersonaSharedProps = {
   ...examplePersona,
   text: 'Maor Sharett',
-  imageInitials: 'MS'
+  imageInitials: 'MS',
+  showColorRing: true
 };
 
 export class PersonaInitialsExample extends React.Component<any, any> {
