@@ -1,6 +1,7 @@
-import { IPersonaCoinStyleProps, IPersonaCoinStyles, PersonaSize } from '../Persona.types';
+import { IPersonaCoinStyleProps, IPersonaCoinStyles, PersonaSize, IPersonaCoinProps } from '../Persona.types';
 import { HighContrastSelector, FontSizes, FontWeights, getGlobalClassNames } from '../../../Styling';
-import { personaSize, sizeBoolean } from '../PersonaConsts';
+import { personaSize, sizeBoolean, sizeNumber } from '../PersonaConsts';
+import { SIZE_TO_PIXELS } from './PersonaCoin.base';
 
 const GlobalClassNames = {
   coin: 'ms-Persona-coin',
@@ -26,6 +27,15 @@ export const getStyles = (props: IPersonaCoinStyleProps): IPersonaCoinStyles => 
   const size = sizeBoolean(props.size as PersonaSize);
 
   const classNames = getGlobalClassNames(GlobalClassNames, theme);
+
+  const getCoinSize = (pSize: PersonaSize | undefined): number => {
+    if (!pSize) {
+      return 0;
+    }
+
+    const adjustedSize = props.showColorRing ? sizeNumber(pSize) - 8 : sizeNumber(pSize);
+    return adjustedSize;
+  };
 
   // Static colors used when displaying 'unknown persona' coin
   const unknownPersonaBackgroundColor = palette.neutralLight;
@@ -78,39 +88,16 @@ export const getStyles = (props: IPersonaCoinStyleProps): IPersonaCoinStyles => 
         width: 0
       },
 
-      size.isSize16 && {
-        height: personaSize.size16,
-        width: personaSize.size16
-      },
-
-      size.isSize24 && {
-        height: personaSize.size24,
-        width: personaSize.size24
-      },
-
-      size.isSize28 && {
-        height: personaSize.size28,
-        width: personaSize.size28
-      },
-
-      size.isSize32 && {
-        height: personaSize.size32,
-        width: personaSize.size32
-      },
-
-      size.isSize40 && {
-        height: personaSize.size40,
-        width: personaSize.size40
-      },
-
-      size.isSize72 && {
-        height: personaSize.size72,
-        width: personaSize.size72
-      },
-
-      size.isSize100 && {
-        height: personaSize.size100,
-        width: personaSize.size100
+      (size.isSize10 ||
+        size.isSize24 ||
+        size.isSize28 ||
+        size.isSize32 ||
+        size.isSize40 ||
+        size.isSize48 ||
+        size.isSize72 ||
+        size.isSize100) && {
+        height: getCoinSize(props.size) + 'px',
+        width: getCoinSize(props.size) + 'px'
       }
     ],
 

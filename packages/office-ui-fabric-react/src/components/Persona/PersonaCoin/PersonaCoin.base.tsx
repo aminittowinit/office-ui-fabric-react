@@ -23,7 +23,7 @@ import { initialsColorPropToColorCode } from '../PersonaInitialsColor';
 
 const getClassNames = classNamesFunction<IPersonaCoinStyleProps, IPersonaCoinStyles>();
 
-const SIZE_TO_PIXELS: { [key: number]: number } = {
+export const SIZE_TO_PIXELS: { [key: number]: number } = {
   [PersonaSize.tiny]: 20,
   [PersonaSize.extraExtraSmall]: 24,
   [PersonaSize.extraSmall]: 28,
@@ -87,7 +87,10 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
 
     const size = this.props.size as PersonaSize;
     const divProps = getNativeProps(this.props, divProperties);
+    const sizeOfInnerCircle = coinSize || SIZE_TO_PIXELS[size] - (showColorRing ? 8 : 0);
+    const innerCircleSizeStyle = !coinSize ? { width: sizeOfInnerCircle, height: sizeOfInnerCircle } : undefined;
     const coinSizeStyle = coinSize ? { width: coinSize, height: coinSize } : undefined;
+
     const hideImage = showUnknownPersonaCoin;
     const backgroundColor = initialsColorPropToColorCode(this.props);
 
@@ -117,7 +120,7 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
       <div {...divProps} className={classNames.coin} style={ringColorStyle}>
         {// Render PersonaCoin if size is not size10
         size !== PersonaSize.size10 && size !== PersonaSize.tiny ? (
-          <div {...coinProps} className={classNames.imageArea} style={coinSizeStyle}>
+          <div {...coinProps} className={classNames.imageArea} style={innerCircleSizeStyle}>
             {!this.state.isImageLoaded &&
               shouldRenderInitials && (
                 <div
@@ -125,7 +128,7 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
                     classNames.initials,
                     !showUnknownPersonaCoin && { backgroundColor: backgroundColor }
                   )}
-                  style={coinSizeStyle}
+                  style={innerCircleSizeStyle}
                   aria-hidden="true"
                 >
                   {onRenderInitials(this.props, this._onRenderInitials)}
@@ -167,8 +170,7 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
       showUnknownPersonaCoin,
       showColorRing: showColorRing
     });
-    const csize = coinSize || SIZE_TO_PIXELS[size];
-    const dsize = coinSize || SIZE_TO_PIXELS[size];
+    const csize = coinSize || SIZE_TO_PIXELS[size] - (showColorRing ? 8 : 0);
     return (
       <Image
         className={classNames.image}
