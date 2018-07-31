@@ -87,9 +87,9 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
 
     const size = this.props.size as PersonaSize;
     const divProps = getNativeProps(this.props, divProperties);
-    const sizeOfInnerCircle = coinSize || SIZE_TO_PIXELS[size] - (showColorRing ? 8 : 0);
+    const sizeOfInnerCircle = coinSize || SIZE_TO_PIXELS[size] - (showColorRing ? 6 : 0);
+
     const innerCircleSizeStyle = !coinSize ? { width: sizeOfInnerCircle, height: sizeOfInnerCircle } : undefined;
-    const coinSizeStyle = coinSize ? { width: coinSize, height: coinSize } : undefined;
 
     const hideImage = showUnknownPersonaCoin;
     const backgroundColor = initialsColorPropToColorCode(this.props);
@@ -170,7 +170,7 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
       showUnknownPersonaCoin,
       showColorRing: showColorRing
     });
-    const csize = coinSize || SIZE_TO_PIXELS[size] - (showColorRing ? 8 : 0);
+    const csize = coinSize || SIZE_TO_PIXELS[size] - (showColorRing ? 6 : 0);
     return (
       <Image
         className={classNames.image}

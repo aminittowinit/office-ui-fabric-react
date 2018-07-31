@@ -1,7 +1,7 @@
 import { IPersonaCoinStyleProps, IPersonaCoinStyles, PersonaSize, IPersonaCoinProps } from '../Persona.types';
 import { HighContrastSelector, FontSizes, FontWeights, getGlobalClassNames } from '../../../Styling';
 import { personaSize, sizeBoolean, sizeNumber } from '../PersonaConsts';
-import { SIZE_TO_PIXELS } from './PersonaCoin.base';
+import { IStyle } from '../../../../node_modules/@uifabric/styling';
 
 const GlobalClassNames = {
   coin: 'ms-Persona-coin',
@@ -19,12 +19,19 @@ const GlobalClassNames = {
   size100: 'ms-Persona--size100'
 };
 
+const smallCoinRingWidth = 1;
+
+const largeCoinRingWidth = 2;
+
+const ringPadding = 2;
+
 export const getStyles = (props: IPersonaCoinStyleProps): IPersonaCoinStyles => {
   const { className, theme } = props;
 
   const { palette } = theme;
 
   const size = sizeBoolean(props.size as PersonaSize);
+  const shouldShowRing = props.showColorRing && !size.isSize10 && !size.isSize16;
 
   const classNames = getGlobalClassNames(GlobalClassNames, theme);
 
@@ -33,18 +40,31 @@ export const getStyles = (props: IPersonaCoinStyleProps): IPersonaCoinStyles => 
       return 0;
     }
 
-    const adjustedSize = props.showColorRing ? sizeNumber(pSize) - 8 : sizeNumber(pSize);
-    return adjustedSize;
+    const adjustedCoinSize = shouldShowRing
+      ? sizeNumber(pSize) - (2 * getCoinRingWidth() + 2 * ringPadding)
+      : sizeNumber(pSize);
+    return adjustedCoinSize;
+  };
+
+  const getCoinRingWidth = (): number => {
+    return size.isSize72 || size.isSize100 ? largeCoinRingWidth : smallCoinRingWidth;
   };
 
   // Static colors used when displaying 'unknown persona' coin
   const unknownPersonaBackgroundColor = palette.neutralLight;
   const unknownPersonaFontColor = palette.redDark;
-  const ring = {
-    borderWidth: '1',
-    borderStyle: 'solid',
-    padding: '2px',
-    borderRadius: '50%'
+
+  const getRingStyle = (): IStyle => {
+    if (!shouldShowRing) {
+      return {};
+    }
+
+    return {
+      borderWidth: getCoinRingWidth() === 2 ? 'medium' : 'thin',
+      borderStyle: 'solid',
+      padding: ringPadding + 'px',
+      borderRadius: '50%'
+    };
   };
 
   return {
@@ -60,7 +80,7 @@ export const getStyles = (props: IPersonaCoinStyleProps): IPersonaCoinStyles => 
       size.isSize48 && classNames.size48,
       size.isSize72 && classNames.size72,
       size.isSize100 && classNames.size100,
-      props.showColorRing && !size.isSize10 && ring,
+      getRingStyle(),
       className
     ],
     size10WithoutPresenceIcon: {
@@ -111,8 +131,8 @@ export const getStyles = (props: IPersonaCoinStyleProps): IPersonaCoinStyles => 
         width: '100%',
         height: '100%',
         border: 0,
-        borderRadius: '50%',
-        perspective: '1px'
+        borderRadius: '50%'
+        // perspective: '1px'
       },
 
       size.isSize10 && {
@@ -121,40 +141,15 @@ export const getStyles = (props: IPersonaCoinStyleProps): IPersonaCoinStyles => 
         height: 0,
         width: 0
       },
-
-      size.isSize16 && {
-        height: personaSize.size16,
-        width: personaSize.size16
-      },
-
-      size.isSize24 && {
-        height: personaSize.size24,
-        width: personaSize.size24
-      },
-
-      size.isSize28 && {
-        height: personaSize.size28,
-        width: personaSize.size28
-      },
-
-      size.isSize32 && {
-        height: personaSize.size32,
-        width: personaSize.size32
-      },
-
-      size.isSize40 && {
-        height: personaSize.size40,
-        width: personaSize.size40
-      },
-
-      size.isSize72 && {
-        height: personaSize.size72,
-        width: personaSize.size72
-      },
-
-      size.isSize100 && {
-        height: personaSize.size100,
-        width: personaSize.size100
+      (size.isSize16 ||
+        size.isSize24 ||
+        size.isSize28 ||
+        size.isSize32 ||
+        size.isSize40 ||
+        size.isSize72 ||
+        size.isSize100) && {
+        height: getCoinSize(props.size) + 'px',
+        width: getCoinSize(props.size) + 'px'
       }
     ],
 
@@ -187,19 +182,27 @@ export const getStyles = (props: IPersonaCoinStyleProps): IPersonaCoinStyles => 
         fontSize: FontSizes.xSmall
       },
 
+      (size.isSize16 ||
+        size.isSize24 ||
+        size.isSize28 ||
+        size.isSize32 ||
+        size.isSize40 ||
+        size.isSize48 ||
+        size.isSize72 ||
+        size.isSize100) && {
+        height: getCoinSize(props.size) + 'px'
+      },
+
       size.isSize16 && {
-        height: personaSize.size16,
-        lineHeight: personaSize.size16
+        lineHeight: getCoinSize(props.size) + 'px'
       },
 
       size.isSize24 && {
-        height: personaSize.size24,
-        lineHeight: personaSize.size24
+        lineHeight: getCoinSize(props.size) + 'px'
       },
 
       size.isSize28 && {
-        height: personaSize.size28,
-        lineHeight: personaSize.size28
+        lineHeight: getCoinSize(props.size) + 'px'
       },
 
       (size.isSize32 || size.isSize40) && {
@@ -207,25 +210,25 @@ export const getStyles = (props: IPersonaCoinStyleProps): IPersonaCoinStyles => 
       },
 
       size.isSize32 && {
-        height: personaSize.size32,
-        lineHeight: personaSize.size32
+        lineHeight: getCoinSize(props.size) + 'px'
       },
 
       size.isSize40 && {
-        height: personaSize.size40,
-        lineHeight: personaSize.size40
+        lineHeight: getCoinSize(props.size) + 'px'
+      },
+
+      size.isSize48 && {
+        lineHeight: getCoinSize(props.size) + 'px'
       },
 
       size.isSize72 && {
         fontSize: FontSizes.xxLarge,
-        height: personaSize.size72,
-        lineHeight: personaSize.size72
+        lineHeight: getCoinSize(props.size) + 'px'
       },
 
       size.isSize100 && {
         fontSize: FontSizes.superLarge,
-        height: personaSize.size100,
-        lineHeight: personaSize.size100
+        lineHeight: getCoinSize(props.size) + 'px'
       }
     ]
   };

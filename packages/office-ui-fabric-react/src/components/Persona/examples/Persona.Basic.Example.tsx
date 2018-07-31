@@ -13,14 +13,14 @@ const examplePersona: IPersonaSharedProps = {
   text: 'Annie Lindqvist',
   secondaryText: 'Software Engineer',
   tertiaryText: 'In a meeting',
-  optionalText: 'Available at 4:00pm',
-  showColorRing: true
+  optionalText: 'Available at 4:00pm'
 };
 
 export class PersonaBasicExample extends React.Component<
   {},
   {
     renderPersonaDetails?: boolean;
+    renderColorRing?: boolean;
   }
 > {
   constructor(props: {}) {
@@ -31,22 +31,31 @@ export class PersonaBasicExample extends React.Component<
   }
 
   public render(): JSX.Element {
-    const { renderPersonaDetails } = this.state;
+    const { renderPersonaDetails, renderColorRing } = this.state;
 
     return (
       <div>
         <div>
           <Checkbox label="Include persona details" checked={renderPersonaDetails} onChange={this._onChange} />
         </div>
+        <div>
+          <Checkbox label="Show ring" checked={renderColorRing} onChange={this._onShowRingCheckboxChange} />
+        </div>
 
         <Label className={exampleStyles.exampleLabel}>Size 10 Persona, with no presence</Label>
-        <Persona {...examplePersona} size={PersonaSize.size10} hidePersonaDetails={!renderPersonaDetails} />
+        <Persona
+          {...examplePersona}
+          size={PersonaSize.size10}
+          hidePersonaDetails={!renderPersonaDetails}
+          showColorRing={renderColorRing}
+        />
         <Label className={exampleStyles.exampleLabel}>Size 10 Persona, with presence</Label>
         <Persona
           {...examplePersona}
           size={PersonaSize.size10}
           presence={PersonaPresence.offline}
           hidePersonaDetails={!renderPersonaDetails}
+          showColorRing={renderColorRing}
         />
         <Label className={exampleStyles.exampleLabel}>Size 24 Persona</Label>
         <Persona
@@ -54,6 +63,7 @@ export class PersonaBasicExample extends React.Component<
           size={PersonaSize.size24}
           presence={PersonaPresence.online}
           hidePersonaDetails={!renderPersonaDetails}
+          showColorRing={renderColorRing}
         />
         <Label className={exampleStyles.exampleLabel}>Size 28 Persona</Label>
         <Persona
@@ -61,6 +71,7 @@ export class PersonaBasicExample extends React.Component<
           size={PersonaSize.size28}
           presence={PersonaPresence.online}
           hidePersonaDetails={!renderPersonaDetails}
+          showColorRing={renderColorRing}
         />
         <Label className={exampleStyles.exampleLabel}>Size 32 Persona</Label>
         <Persona
@@ -68,6 +79,7 @@ export class PersonaBasicExample extends React.Component<
           size={PersonaSize.size32}
           presence={PersonaPresence.online}
           hidePersonaDetails={!renderPersonaDetails}
+          showColorRing={renderColorRing}
         />
 
         <Label className={exampleStyles.exampleLabel}>Size 40 Persona</Label>
@@ -76,9 +88,15 @@ export class PersonaBasicExample extends React.Component<
           size={PersonaSize.size40}
           presence={PersonaPresence.away}
           hidePersonaDetails={!renderPersonaDetails}
+          showColorRing={renderColorRing}
         />
         <Label className={exampleStyles.exampleLabel}>Size 48 Persona (default) </Label>
-        <Persona {...examplePersona} hidePersonaDetails={!renderPersonaDetails} presence={PersonaPresence.busy} />
+        <Persona
+          {...examplePersona}
+          hidePersonaDetails={!renderPersonaDetails}
+          presence={PersonaPresence.busy}
+          showColorRing={renderColorRing}
+        />
 
         <Label className={exampleStyles.exampleLabel}>Size 72 Persona</Label>
         <Persona
@@ -86,6 +104,7 @@ export class PersonaBasicExample extends React.Component<
           size={PersonaSize.size72}
           presence={PersonaPresence.dnd}
           hidePersonaDetails={!renderPersonaDetails}
+          showColorRing={renderColorRing}
         />
         <Label className={exampleStyles.exampleLabel}>Size 100 Persona</Label>
         <Persona
@@ -93,10 +112,17 @@ export class PersonaBasicExample extends React.Component<
           size={PersonaSize.size100}
           presence={PersonaPresence.blocked}
           hidePersonaDetails={!renderPersonaDetails}
+          showColorRing={renderColorRing}
         />
       </div>
     );
   }
+  private _onShowRingCheckboxChange = (
+    ev: React.FormEvent<HTMLElement | HTMLInputElement> | undefined,
+    checked: boolean | undefined
+  ): void => {
+    this.setState({ renderColorRing: checked });
+  };
 
   private _onChange = (
     ev: React.FormEvent<HTMLElement | HTMLInputElement> | undefined,

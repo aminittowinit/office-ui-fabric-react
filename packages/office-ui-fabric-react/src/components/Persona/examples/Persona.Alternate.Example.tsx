@@ -10,8 +10,7 @@ const examplePersona: IPersonaSharedProps = {
   secondaryText: 'Designer',
   tertiaryText: 'In a meeting',
   optionalText: 'Available at 4:00pm',
-  showSecondaryText: true,
-  showColorRing: true
+  showSecondaryText: true
 };
 
 export class PersonaAlternateExample extends React.Component<

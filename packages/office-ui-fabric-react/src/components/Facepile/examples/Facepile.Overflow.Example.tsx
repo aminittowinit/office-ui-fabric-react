@@ -4,6 +4,7 @@ import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { Slider } from 'office-ui-fabric-react/lib/Slider';
 import { facepilePersonas } from './FacepileExampleData';
 import './Facepile.Examples.scss';
+import { Checkbox } from 'office-ui-fabric-react/lib/components/Checkbox';
 
 const facepileProps: IFacepileProps = {
   personas: facepilePersonas,
@@ -19,6 +20,7 @@ const facepileProps: IFacepileProps = {
 export interface IFacepileOverflowExampleState {
   displayedPersonas: any;
   overflowButtonType: OverflowButtonType;
+  showColorRing: boolean;
 }
 
 export class FacepileOverflowExample extends React.Component<{}, IFacepileOverflowExampleState> {
@@ -27,14 +29,16 @@ export class FacepileOverflowExample extends React.Component<{}, IFacepileOverfl
 
     this.state = {
       displayedPersonas: 5,
-      overflowButtonType: OverflowButtonType.none
+      overflowButtonType: OverflowButtonType.none,
+      showColorRing: false
     };
   }
 
   public render(): JSX.Element {
-    const { displayedPersonas, overflowButtonType } = this.state;
+    const { displayedPersonas, overflowButtonType, showColorRing } = this.state;
     facepileProps.maxDisplayablePersonas = displayedPersonas;
     facepileProps.overflowButtonType = overflowButtonType;
+    facepileProps.showColorRing = showColorRing;
 
     return (
       <div className={'ms-FacepileExample'}>
@@ -60,10 +64,20 @@ export class FacepileOverflowExample extends React.Component<{}, IFacepileOverfl
             ]}
             onChanged={this._onChangeType}
           />
+          <Checkbox label="Show Rings" onChange={this._showRingCheckBoxChanged} checked={this.state.showColorRing} />
         </div>
       </div>
     );
   }
+
+  private _showRingCheckBoxChanged = (ev: React.FormEvent<HTMLElement>, isChecked: boolean): void => {
+    this.setState(
+      (prevState: IFacepileOverflowExampleState): IFacepileOverflowExampleState => {
+        prevState.showColorRing = isChecked;
+        return prevState;
+      }
+    );
+  };
 
   private _onChangePersonaNumber = (value: number): void => {
     this.setState(

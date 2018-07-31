@@ -3,6 +3,7 @@ import { PersonaInitialsExample } from './examples/Persona.Initials.Example';
 
 import { IDocPageProps } from '../../common/DocPage.types';
 import { PersonaBasicExample } from './examples/Persona.Basic.Example';
+import { PersonaRingExample } from './examples/Persona.Ring.Example';
 import { PersonaAlternateExample } from './examples/Persona.Alternate.Example';
 import { PersonaCustomRenderExample } from './examples/Persona.CustomRender.Example';
 import { PersonaCustomCoinRenderExample } from './examples/Persona.CustomCoinRender.Example';
@@ -10,6 +11,8 @@ import { UnknownPersonaExample } from './examples/Persona.UnknownPersona.Example
 import { PersonaStatus } from './Persona.checklist';
 
 const PersonaInitialsExampleCode = require('!raw-loader!office-ui-fabric-react/src/components/Persona/examples/Persona.Initials.Example.tsx') as string;
+const PersonaRingExampleCode = require('!raw-loader!office-ui-fabric-react/src/components/Persona/examples/Persona.Ring.Example.tsx') as string;
+
 const PersonaBasicExampleCode = require('!raw-loader!office-ui-fabric-react/src/components/Persona/examples/Persona.Basic.Example.tsx') as string;
 const PersonaAlternateExampleCode = require('!raw-loader!office-ui-fabric-react/src/components/Persona/examples/Persona.Alternate.Example.tsx') as string;
 const PersonaCustomRenderExampleCode = require('!raw-loader!office-ui-fabric-react/src/components/Persona/examples/Persona.CustomRender.Example.tsx') as string;
@@ -37,6 +40,11 @@ export const PersonaPageProps: IDocPageProps = {
       title: 'Persona with initials',
       code: PersonaInitialsExampleCode,
       view: <PersonaInitialsExample />
+    },
+    {
+      title: 'Persona with Rings',
+      code: PersonaRingExampleCode,
+      view: <PersonaRingExample />
     },
     {
       title: 'Rendering custom persona text',
