@@ -1,8 +1,8 @@
 import { IPersonaCoinStyleProps, IPersonaCoinStyles, PersonaSize, IPersonaCoinProps } from '../Persona.types';
 import { HighContrastSelector, FontSizes, FontWeights, getGlobalClassNames } from '../../../Styling';
-import { personaSize, sizeBoolean, sizeNumber } from '../PersonaConsts';
+import { personaSize, sizeBoolean, SIZE_TO_PIXELS, RingProps } from '../PersonaConsts';
 import { IStyle } from '../../../../node_modules/@uifabric/styling';
-
+import { getCoinSize, getCoinRingWidth, shouldShowRing } from './PersonaCoinUtils';
 const GlobalClassNames = {
   coin: 'ms-Persona-coin',
   imageArea: 'ms-Persona-imageArea',
@@ -19,51 +19,35 @@ const GlobalClassNames = {
   size100: 'ms-Persona--size100'
 };
 
-const smallCoinRingWidth = 1;
-
-const largeCoinRingWidth = 2;
-
-const ringPadding = 2;
-
 export const getStyles = (props: IPersonaCoinStyleProps): IPersonaCoinStyles => {
   const { className, theme } = props;
-
   const { palette } = theme;
-
   const size = sizeBoolean(props.size as PersonaSize);
-  const shouldShowRing = props.showColorRing && !size.isSize10 && !size.isSize16;
-
   const classNames = getGlobalClassNames(GlobalClassNames, theme);
 
-  const getCoinSize = (pSize: PersonaSize | undefined): number => {
-    if (!pSize) {
-      return 0;
-    }
-
-    const adjustedCoinSize = shouldShowRing
-      ? sizeNumber(pSize) - (2 * getCoinRingWidth() + 2 * ringPadding)
-      : sizeNumber(pSize);
-    return adjustedCoinSize;
-  };
-
-  const getCoinRingWidth = (): number => {
-    return size.isSize72 || size.isSize100 ? largeCoinRingWidth : smallCoinRingWidth;
-  };
+  // this is size of the coin inside the ring if we are to show the ring or the ring as specified in pixle size.
+  const coinSize = getCoinSize(props) + 'px';
 
   // Static colors used when displaying 'unknown persona' coin
   const unknownPersonaBackgroundColor = palette.neutralLight;
   const unknownPersonaFontColor = palette.redDark;
 
   const getRingStyle = (): IStyle => {
-    if (!shouldShowRing) {
-      return {};
+    if (!shouldShowRing(props)) {
+      return {
+        width: getCoinSize(props),
+        height: getCoinSize(props)
+      };
     }
 
     return {
-      borderWidth: getCoinRingWidth() === 2 ? 'medium' : 'thin',
+      borderWidth: getCoinRingWidth(props) + 'px',
       borderStyle: 'solid',
-      padding: ringPadding + 'px',
-      borderRadius: '50%'
+      padding: getCoinRingWidth(props) + 'px',
+      borderRadius: '50%',
+      width: getCoinSize(props),
+      height: getCoinSize(props),
+      borderColor: props.backgroundColor
     };
   };
 
@@ -106,18 +90,6 @@ export const getStyles = (props: IPersonaCoinStyleProps): IPersonaCoinStyles => 
         background: 'transparent',
         height: 0,
         width: 0
-      },
-
-      (size.isSize10 ||
-        size.isSize24 ||
-        size.isSize28 ||
-        size.isSize32 ||
-        size.isSize40 ||
-        size.isSize48 ||
-        size.isSize72 ||
-        size.isSize100) && {
-        height: getCoinSize(props.size) + 'px',
-        width: getCoinSize(props.size) + 'px'
       }
     ],
 
@@ -131,8 +103,8 @@ export const getStyles = (props: IPersonaCoinStyleProps): IPersonaCoinStyles => 
         width: '100%',
         height: '100%',
         border: 0,
-        borderRadius: '50%'
-        // perspective: '1px'
+        borderRadius: '50%',
+        perspective: '1px'
       },
 
       size.isSize10 && {
@@ -140,16 +112,6 @@ export const getStyles = (props: IPersonaCoinStyleProps): IPersonaCoinStyles => 
         background: 'transparent',
         height: 0,
         width: 0
-      },
-      (size.isSize16 ||
-        size.isSize24 ||
-        size.isSize28 ||
-        size.isSize32 ||
-        size.isSize40 ||
-        size.isSize72 ||
-        size.isSize100) && {
-        height: getCoinSize(props.size) + 'px',
-        width: getCoinSize(props.size) + 'px'
       }
     ],
 
@@ -182,53 +144,20 @@ export const getStyles = (props: IPersonaCoinStyleProps): IPersonaCoinStyles => 
         fontSize: FontSizes.xSmall
       },
 
-      (size.isSize16 ||
-        size.isSize24 ||
-        size.isSize28 ||
-        size.isSize32 ||
-        size.isSize40 ||
-        size.isSize48 ||
-        size.isSize72 ||
-        size.isSize100) && {
-        height: getCoinSize(props.size) + 'px'
-      },
-
-      size.isSize16 && {
-        lineHeight: getCoinSize(props.size) + 'px'
-      },
-
-      size.isSize24 && {
-        lineHeight: getCoinSize(props.size) + 'px'
-      },
-
-      size.isSize28 && {
-        lineHeight: getCoinSize(props.size) + 'px'
-      },
-
       (size.isSize32 || size.isSize40) && {
         fontSize: FontSizes.medium
       },
 
-      size.isSize32 && {
-        lineHeight: getCoinSize(props.size) + 'px'
-      },
-
-      size.isSize40 && {
-        lineHeight: getCoinSize(props.size) + 'px'
-      },
-
-      size.isSize48 && {
-        lineHeight: getCoinSize(props.size) + 'px'
-      },
-
       size.isSize72 && {
-        fontSize: FontSizes.xxLarge,
-        lineHeight: getCoinSize(props.size) + 'px'
+        fontSize: FontSizes.xxLarge
       },
 
       size.isSize100 && {
-        fontSize: FontSizes.superLarge,
-        lineHeight: getCoinSize(props.size) + 'px'
+        fontSize: FontSizes.superLarge
+      },
+
+      SIZE_TO_PIXELS[props.size as PersonaSize] > 10 && {
+        lineHeight: coinSize
       }
     ]
   };

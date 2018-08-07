@@ -67,6 +67,7 @@ export interface IFacepileProps extends React.Props<FacepileBase> {
   /** Type of overflow icon to use */
   overflowButtonType?: OverflowButtonType;
 
+  /** If true, control will draws a ring with assigned color of the user around the control. Note: size of the control stays as specified */
   showColorRing?: boolean;
 
   /** Method to access properties on the underlying Persona control */

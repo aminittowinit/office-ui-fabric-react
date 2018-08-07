@@ -23,25 +23,6 @@ import { initialsColorPropToColorCode } from '../PersonaInitialsColor';
 
 const getClassNames = classNamesFunction<IPersonaCoinStyleProps, IPersonaCoinStyles>();
 
-export const SIZE_TO_PIXELS: { [key: number]: number } = {
-  [PersonaSize.tiny]: 20,
-  [PersonaSize.extraExtraSmall]: 24,
-  [PersonaSize.extraSmall]: 28,
-  [PersonaSize.small]: 40,
-  [PersonaSize.regular]: 48,
-  [PersonaSize.large]: 72,
-  [PersonaSize.extraLarge]: 100,
-
-  [PersonaSize.size24]: 24,
-  [PersonaSize.size28]: 28,
-  [PersonaSize.size10]: 20,
-  [PersonaSize.size32]: 32,
-  [PersonaSize.size40]: 40,
-  [PersonaSize.size48]: 48,
-  [PersonaSize.size72]: 72,
-  [PersonaSize.size100]: 100
-};
-
 export interface IPersonaState {
   isImageLoaded?: boolean;
   isImageError?: boolean;
@@ -87,12 +68,11 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
 
     const size = this.props.size as PersonaSize;
     const divProps = getNativeProps(this.props, divProperties);
-    const sizeOfInnerCircle = coinSize || SIZE_TO_PIXELS[size] - (showColorRing ? 6 : 0);
 
-    const innerCircleSizeStyle = !coinSize ? { width: sizeOfInnerCircle, height: sizeOfInnerCircle } : undefined;
+    const innerCircleSizeStyle = !coinSize ? { width: '100%', height: '100%' } : undefined;
 
     const hideImage = showUnknownPersonaCoin;
-    const backgroundColor = initialsColorPropToColorCode(this.props);
+    const backgroundColor = !showUnknownPersonaCoin ? initialsColorPropToColorCode(this.props) : undefined;
 
     const personaPresenceProps: IPersonaPresenceProps = {
       coinSize,
@@ -107,30 +87,22 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
       className: coinProps && coinProps.className ? coinProps.className : className,
       size,
       showUnknownPersonaCoin,
-      showColorRing: showColorRing
+      showColorRing: showColorRing,
+      backgroundColor: backgroundColor
     });
 
     const shouldRenderInitials = Boolean(
       (showInitialsUntilImageLoads && imageUrl) || !imageUrl || this.state.isImageError || hideImage
     );
 
-    const ringColorStyle = showColorRing ? { borderColor: backgroundColor } : {};
-
     return (
-      <div {...divProps} className={classNames.coin} style={ringColorStyle}>
+      <div {...divProps} className={classNames.coin}>
         {// Render PersonaCoin if size is not size10
         size !== PersonaSize.size10 && size !== PersonaSize.tiny ? (
           <div {...coinProps} className={classNames.imageArea} style={innerCircleSizeStyle}>
             {!this.state.isImageLoaded &&
               shouldRenderInitials && (
-                <div
-                  className={mergeStyles(
-                    classNames.initials,
-                    !showUnknownPersonaCoin && { backgroundColor: backgroundColor }
-                  )}
-                  style={innerCircleSizeStyle}
-                  aria-hidden="true"
-                >
+                <div className={classNames.initials} style={innerCircleSizeStyle} aria-hidden="true">
                   {onRenderInitials(this.props, this._onRenderInitials)}
                 </div>
               )}
@@ -151,7 +123,6 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
 
   private _onRenderCoin = (props: IPersonaCoinProps): JSX.Element | null => {
     const {
-      coinSize,
       styles,
       imageUrl,
       imageAlt,
@@ -162,22 +133,17 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
       showColorRing
     } = this.props;
 
-    const size = this.props.size as PersonaSize;
-
     const classNames = getClassNames(styles, {
       theme: theme!,
-      size,
       showUnknownPersonaCoin,
       showColorRing: showColorRing
     });
-    const csize = coinSize || SIZE_TO_PIXELS[size] - (showColorRing ? 6 : 0);
+
     return (
       <Image
         className={classNames.image}
         imageFit={ImageFit.cover}
         src={imageUrl}
-        width={csize}
-        height={csize}
         alt={imageAlt}
         shouldFadeIn={imageShouldFadeIn}
         shouldStartVisible={imageShouldStartVisible}

@@ -268,7 +268,15 @@ export interface IPersonaCoinStyleProps {
    */
   showUnknownPersonaCoin?: boolean;
 
+  /**
+   * Decides whether to show the ring around the persona coin or not
+   */
   showColorRing?: boolean;
+
+  /**
+   * Color of the persona coin
+   */
+  backgroundColor?: string;
 }
 
 export interface IPersonaCoinStyles {

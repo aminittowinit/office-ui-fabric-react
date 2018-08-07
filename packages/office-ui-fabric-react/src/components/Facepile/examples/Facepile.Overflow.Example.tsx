@@ -5,6 +5,7 @@ import { Slider } from 'office-ui-fabric-react/lib/Slider';
 import { facepilePersonas } from './FacepileExampleData';
 import './Facepile.Examples.scss';
 import { Checkbox } from 'office-ui-fabric-react/lib/components/Checkbox';
+import { PersonaSize } from 'office-ui-fabric-react/lib/components/Persona';
 
 const facepileProps: IFacepileProps = {
   personas: facepilePersonas,
@@ -39,6 +40,7 @@ export class FacepileOverflowExample extends React.Component<{}, IFacepileOverfl
     facepileProps.maxDisplayablePersonas = displayedPersonas;
     facepileProps.overflowButtonType = overflowButtonType;
     facepileProps.showColorRing = showColorRing;
+    facepileProps.personaSize = PersonaSize.size24;
 
     return (
       <div className={'ms-FacepileExample'}>
@@ -64,13 +66,17 @@ export class FacepileOverflowExample extends React.Component<{}, IFacepileOverfl
             ]}
             onChanged={this._onChangeType}
           />
-          <Checkbox label="Show Rings" onChange={this._showRingCheckBoxChanged} checked={this.state.showColorRing} />
+          <Checkbox
+            label="Show Rings"
+            onChange={this._showColorRingCheckBoxChanged}
+            checked={this.state.showColorRing}
+          />
         </div>
       </div>
     );
   }
 
-  private _showRingCheckBoxChanged = (ev: React.FormEvent<HTMLElement>, isChecked: boolean): void => {
+  private _showColorRingCheckBoxChanged = (ev: React.FormEvent<HTMLElement>, isChecked: boolean): void => {
     this.setState(
       (prevState: IFacepileOverflowExampleState): IFacepileOverflowExampleState => {
         prevState.showColorRing = isChecked;

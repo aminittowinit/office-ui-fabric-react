@@ -1,0 +1,9 @@
+diff a/packages/office-ui-fabric-react/src/components/Facepile/examples/Facepile.Basic.Example.tsx b/packages/office-ui-fabric-react/src/components/Facepile/examples/Facepile.Basic.Example.tsx	(rejected hunks)
+@@ -7,6 +7,7 @@
+ import { facepilePersonas } from './FacepileExampleData';
+ import './Facepile.Examples.scss';
+ import * as exampleStylesImport from '../../../common/_exampleStyles.scss';
++import { Toggle } from 'office-ui-fabric-react/lib/components/Toggle';
+ const exampleStyles: any = exampleStylesImport;
+ 
+ export interface IFacepileBasicExampleState {
