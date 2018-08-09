@@ -49,8 +49,5 @@
       "node ./scripts/lint-staged/prettier",
       "git add"
     ]
-  },
-  "dependencies": {
-    "npm": "^6.2.0"
   }
 }
