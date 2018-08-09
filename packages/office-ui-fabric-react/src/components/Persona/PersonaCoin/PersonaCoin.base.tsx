@@ -92,7 +92,9 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
     });
 
     const shouldRenderInitials = Boolean(
-      (showInitialsUntilImageLoads && imageUrl) || !imageUrl || this.state.isImageError || hideImage
+      !this.state.isImageLoaded &&
+        onRenderCoin === this._onRenderCoin &&
+        ((showInitialsUntilImageLoads && imageUrl) || !imageUrl || this.state.isImageError || hideImage)
     );
 
     return (
@@ -100,13 +102,19 @@ export class PersonaCoinBase extends BaseComponent<IPersonaCoinProps, IPersonaSt
         {// Render PersonaCoin if size is not size10
         size !== PersonaSize.size10 && size !== PersonaSize.tiny ? (
           <div {...coinProps} className={classNames.imageArea} style={innerCircleSizeStyle}>
-            {!this.state.isImageLoaded &&
-              shouldRenderInitials && (
-                <div className={classNames.initials} style={innerCircleSizeStyle} aria-hidden="true">
-                  {onRenderInitials(this.props, this._onRenderInitials)}
-                </div>
-              )}
-            {!hideImage && onRenderCoin(this.props, this._onRenderCoin)}
+            {shouldRenderInitials && (
+              <div
+                className={mergeStyles(
+                  classNames.initials,
+                  !showUnknownPersonaCoin && { backgroundColor: initialsColorPropToColorCode(this.props) }
+                )}
+                style={innerCircleSizeStyle}
+                aria-hidden="true"
+              >
+                {onRenderInitials(this.props, this._onRenderInitials)}
+              </div>
+            )}
+            {imageUrl && !hideImage && onRenderCoin(this.props, this._onRenderCoin)}
             <PersonaPresence {...personaPresenceProps} />
           </div>
         ) : // Otherwise, render just PersonaPresence.

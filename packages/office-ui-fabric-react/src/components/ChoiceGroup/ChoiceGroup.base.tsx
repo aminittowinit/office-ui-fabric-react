@@ -1,8 +1,13 @@
 import * as React from 'react';
 import { Label } from '../../Label';
-import { IChoiceGroupOptionProps, ChoiceGroupOption, OnFocusCallback, OnChangeCallback } from './ChoiceGroupOption';
+import {
+  IChoiceGroupOptionProps,
+  ChoiceGroupOption,
+  OnFocusCallback,
+  OnChangeCallback
+} from './ChoiceGroupOption/index';
 import { IChoiceGroupOption, IChoiceGroupProps, IChoiceGroupStyleProps, IChoiceGroupStyles } from './ChoiceGroup.types';
-import { BaseComponent, classNamesFunction, createRef, getId } from '../../Utilities';
+import { BaseComponent, classNamesFunction, createRef, getId, find } from '../../Utilities';
 
 const getClassNames = classNamesFunction<IChoiceGroupStyleProps, IChoiceGroupStyles>();
 
@@ -129,7 +134,7 @@ export class ChoiceGroupBase extends BaseComponent<IChoiceGroupProps, IChoiceGro
     this.changedVars[key]
       ? this.changedVars[key]
       : (this.changedVars[key] = (evt, option: IChoiceGroupOption) => {
-          const { onChanged, onChange, selectedKey, options } = this.props;
+          const { onChanged, onChange, selectedKey, options = [] } = this.props;
 
           // Only manage state in uncontrolled scenarios.
           if (selectedKey === undefined) {
@@ -138,7 +143,7 @@ export class ChoiceGroupBase extends BaseComponent<IChoiceGroupProps, IChoiceGro
             });
           }
 
-          const originalOption = options!.find((value: IChoiceGroupOption) => value.key === key);
+          const originalOption = find(options, (value: IChoiceGroupOption) => value.key === key);
 
           // TODO: onChanged deprecated, remove else if after 07/17/2017 when onChanged has been removed.
           if (onChange) {
@@ -153,7 +158,9 @@ export class ChoiceGroupBase extends BaseComponent<IChoiceGroupProps, IChoiceGro
       return props.selectedKey;
     }
 
-    const optionsChecked = props.options!.filter((option: IChoiceGroupOption) => {
+    const { options = [] } = props;
+
+    const optionsChecked = options.filter((option: IChoiceGroupOption) => {
       return option.checked;
     });
 

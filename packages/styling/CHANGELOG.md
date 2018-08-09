@@ -1,6 +1,36 @@
 # Change Log - @uifabric/styling
 
-This log was last generated on Thu, 19 Jul 2018 10:23:34 GMT and should not be manually modified.
+This log was last generated on Fri, 03 Aug 2018 10:25:59 GMT and should not be manually modified.
+
+## 6.14.0
+Fri, 03 Aug 2018 10:25:59 GMT
+
+### Minor changes
+
+- adds 4 new semantic slots, based on designs from SP-Client events webpart, and with approval from Philip Kuo; actionLink, actionLinkHovered, cardBackground, variantBorder
+
+## 6.13.0
+Thu, 02 Aug 2018 10:23:19 GMT
+
+### Minor changes
+
+- getGlobalClassNames - when disabled, now returns a unique classname (modularized) instead of empty string.
+- Styling: make typography properties optional in Partial<ITheme>
+
+## 6.12.0
+Tue, 24 Jul 2018 10:24:36 GMT
+
+### Minor changes
+
+- Add unregisterIcons to styling export
+
+## 6.11.0
+Mon, 23 Jul 2018 10:28:08 GMT
+
+### Minor changes
+
+- add ITypography to ITheme
+- Theming: add new semantic slot
 
 ## 6.10.0
 Thu, 19 Jul 2018 10:23:34 GMT

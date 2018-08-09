@@ -10,8 +10,7 @@ import { CollapseAllVisibility } from '../../GroupedList';
 import { DetailsRowCheck } from './DetailsRowCheck';
 import { ITooltipHostProps } from '../../Tooltip';
 import { ISelection, SelectionMode, SELECTION_CHANGE } from '../../utilities/selection/interfaces';
-import { IDragDropOptions } from '../../utilities/dragdrop/interfaces';
-import { DragDropHelper } from '../../utilities/dragdrop';
+import { IDragDropOptions, DragDropHelper } from '../../utilities/dragdrop/index';
 import { DetailsColumn } from '../../components/DetailsList/DetailsColumn';
 import { IColumnResizeDetails, SelectAllVisibility, IDropHintDetails } from './DetailsHeader.types';
 import { IDetailsHeaderStyleProps, IDetailsHeaderStyles } from './DetailsHeader.types';
@@ -252,7 +251,7 @@ export class DetailsHeaderBase extends BaseComponent<IDetailsHeaderProps, IDetai
             ]
           : null}
         {groupNestingDepth! > 0 && this.props.collapseAllVisibility === CollapseAllVisibility.visible ? (
-          <div className={classNames.cell} onClick={this._onToggleCollapseAll} data-is-focusable={true}>
+          <div className={classNames.cellIsGroupExpander} onClick={this._onToggleCollapseAll} data-is-focusable={true}>
             <Icon className={classNames.collapseButton} iconName="ChevronDown" />
           </div>
         ) : null}
@@ -276,7 +275,7 @@ export class DetailsHeaderBase extends BaseComponent<IDetailsHeaderProps, IDetai
               onColumnClick={onColumnClick}
               onColumnContextMenu={onColumnContextMenu}
               isDropped={this._onDropIndexInfo.targetIndex === columnIndex}
-              headerClassNames={classNames}
+              cellStyleProps={this.props.cellStyleProps}
             />,
             column.isResizable && this._renderColumnSizer(columnIndex)
           ];

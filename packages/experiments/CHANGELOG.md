@@ -1,6 +1,89 @@
 # Change Log - @uifabric/experiments
 
-This log was last generated on Thu, 19 Jul 2018 19:04:38 GMT and should not be manually modified.
+This log was last generated on Mon, 06 Aug 2018 10:27:53 GMT and should not be manually modified.
+
+## 6.22.5
+Mon, 06 Aug 2018 10:27:53 GMT
+
+### Patches
+
+- Fixing Stack to allow for classNames through Stack.Item
+
+## 6.22.4
+Fri, 03 Aug 2018 10:25:59 GMT
+
+### Patches
+
+- Added export to index
+
+## 6.22.3
+Thu, 02 Aug 2018 10:23:19 GMT
+
+### Patches
+
+- Updated border color on rest state of button, added borders to other states and reverted change to radio button selection dot.
+
+## 6.22.2
+Wed, 01 Aug 2018 10:25:51 GMT
+
+### Patches
+
+- Improvements to CollapsibleSection and new examples.
+
+## 6.22.1
+Mon, 30 Jul 2018 10:27:11 GMT
+
+### Patches
+
+- FormDropdown: allow options prop to flow to the underlying Dropdown component.
+
+## 6.22.0
+Fri, 27 Jul 2018 10:25:39 GMT
+
+### Minor changes
+
+- Added TextField to FluentStyles
+
+### Patches
+
+- added export for collapsible section and foundation
+
+## 6.21.0
+Thu, 26 Jul 2018 10:28:51 GMT
+
+### Minor changes
+
+- Updates Fluent styles for Dialog and ComoboBox
+
+## 6.20.0
+Wed, 25 Jul 2018 03:20:34 GMT
+
+### Minor changes
+
+- Make stack grow be more flexible
+
+## 6.19.1
+Tue, 24 Jul 2018 10:24:36 GMT
+
+*Version update only*
+
+## 6.19.0
+Mon, 23 Jul 2018 10:28:08 GMT
+
+### Minor changes
+
+- Text: use existing theming
+- Addressing bad imports.
+
+## 6.18.3
+Fri, 20 Jul 2018 10:25:21 GMT
+
+*Version update only*
+
+## 6.18.2
+Thu, 19 Jul 2018 21:25:32 GMT
+
+*Version update only*
 
 ## 6.18.1
 Thu, 19 Jul 2018 19:04:38 GMT

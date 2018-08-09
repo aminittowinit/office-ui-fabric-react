@@ -25,14 +25,12 @@ const BreadcrumbStyles = {
 const PrimaryButtonStyles = {
   root: {
     borderRadius: fluentBorderRadius
-    // boxShadow: Depths.depth4
   }
 };
 
 const CompoundButtonStyles = {
   root: {
     borderRadius: fluentBorderRadius
-    // boxShadow: Depths.depth4
   }
 };
 
@@ -40,10 +38,11 @@ const DefaultButtonStyles = {
   root: {
     borderRadius: fluentBorderRadius,
     backgroundColor: '#fff',
-    border: `1px solid ${NeutralColors.gray20}`
+    border: `1px solid ${NeutralColors.gray110}`
   },
   rootHovered: {
-    backgroundColor: '#f3f2f1'
+    backgroundColor: '#f3f2f1',
+    border: `1px solid ${NeutralColors.gray110}`
   }
 };
 
@@ -67,13 +66,6 @@ const ChoiceGroupOptionStyles = (props: IChoiceGroupOptionStyleProps): IChoiceGr
           }
         ],
         ':after': [
-          {
-            top: 4,
-            left: 4,
-            width: 12,
-            height: 12,
-            borderWidth: 6
-          },
           checked &&
             (hasIcon || hasImage) && {
               top: radioButtonSpacing + radioButtonInnerSize,
@@ -96,7 +88,8 @@ const ComboBoxStyles = {
   },
   callout: {
     borderRadius: `0 0 ${fluentBorderRadius} ${fluentBorderRadius}`,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    boxShadow: Depths.depth8
   }
 };
 
@@ -115,13 +108,17 @@ const DialogContentStyles = {
   title: {
     fontSize: FontSizes.size20,
     fontWeight: FontWeights.semibold,
-    padding: '16px'
+    padding: '16px',
+    lineHeight: 'normal'
   },
   topButton: {
     padding: '16px 10px 0 0'
   },
   inner: {
     padding: '0 16px 16px'
+  },
+  subText: {
+    fontWeight: FontWeights.regular
   }
 };
 
@@ -136,6 +133,13 @@ const LabelStyles = {
     fontWeight: FontWeights.semibold
   }
 };
+
+const TextFieldStyles = {
+  fieldGroup: {
+    borderRadius: fluentBorderRadius
+  }
+};
+
 const ToggleStyles = {
   pill: {
     width: '40px',
@@ -185,6 +189,9 @@ export const FluentStyles = {
   },
   Label: {
     styles: LabelStyles
+  },
+  TextField: {
+    styles: TextFieldStyles
   },
   Toggle: {
     styles: ToggleStyles

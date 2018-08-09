@@ -1,5 +1,6 @@
 import { Breakpoints, Layout, Layouts } from 'react-grid-layout';
 import { IStyle } from 'office-ui-fabric-react/lib/Styling';
+import { DragApiRefObject } from 'react-grid-layout';
 
 /**
  * Size of the card
@@ -66,9 +67,9 @@ export interface IDashboardCardLayout {
 
   /**
    * Whether cards in this grid are allowed to drag
-   * @default true
+   * @default false
    */
-  isDraggable?: boolean;
+  disableDrag?: boolean;
 
   /**
    * Whether cards in this grid are allowed to get resized
@@ -81,7 +82,12 @@ export interface IDashboardGridLayoutProps {
   /**
    * Describes the layout of the cards to display for every breakpoint
    */
-  layout: DashboardGridBreakpointLayouts;
+  layout?: DashboardGridBreakpointLayouts;
+
+  /**
+   * Drag api to allow custom drag drops
+   */
+  dragApi?: DragApiRefObject;
 
   /**
    * Whether items in this grid should be draggable or not
@@ -98,7 +104,7 @@ export interface IDashboardGridLayoutProps {
   /**
    * Callback so you can save the layout.
    */
-  onLayoutChange?(currentLayout: Layout, allLayouts: Layouts): void;
+  onLayoutChange?(currentLayout: Layout[], allLayouts: Layouts): void;
 
   /**
    * Calls back with breakpoint and new number of columns
