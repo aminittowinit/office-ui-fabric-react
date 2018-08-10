@@ -229,17 +229,16 @@ export class ComboBox extends BaseComponent<IComboBoxProps, IComboBoxState> {
       this._async.setTimeout(() => this._scrollIntoView(), 0);
     }
 
-    // if an action is taken that put focus in the ComboBox
-    // and If we are open or we are just closed, shouldFocusAfterClose is set,
-    // but we are not the activeElement set focus on the input
+    // If we are open or we are just closed, shouldFocusAfterClose is set,
+    // are focused but we are not the activeElement set focus on the input
     if (
-      focused &&
-      (isOpen ||
-        (prevState.isOpen &&
-          !isOpen &&
-          this._focusInputAfterClose &&
-          this._autofill.current &&
-          document.activeElement !== this._autofill.current.inputElement))
+      isOpen ||
+      (prevState.isOpen &&
+        !isOpen &&
+        this._focusInputAfterClose &&
+        focused &&
+        this._autofill.current &&
+        document.activeElement !== this._autofill.current.inputElement)
     ) {
       this.focus(undefined /*shouldOpenOnFocus*/, true /*useFocusAsync*/);
     }
@@ -926,19 +925,10 @@ export class ComboBox extends BaseComponent<IComboBoxProps, IComboBoxState> {
     // Do nothing if the blur is coming from something
     // inside the comboBox root or the comboBox menu since
     // it we are not really bluring from the whole comboBox
-    let relatedTarget = event.relatedTarget;
-    if (event.relatedTarget === null) {
-      // In IE11, due to lack of support, event.relatedTarget is always
-      // null making every onBlur call to be "outside" of the ComboBox
-      // even when it's not. Using document.activeElement is another way
-      // for us to be able to get what the relatedTarget without relying
-      // on the event
-      relatedTarget = document.activeElement;
-    }
     if (
-      relatedTarget &&
-      ((this._root.current && this._root.current.contains(relatedTarget as HTMLElement)) ||
-        (this._comboBoxMenu.current && this._comboBoxMenu.current.contains(relatedTarget as HTMLElement)))
+      event.relatedTarget &&
+      ((this._root.current && this._root.current.contains(event.relatedTarget as HTMLElement)) ||
+        (this._comboBoxMenu.current && this._comboBoxMenu.current.contains(event.relatedTarget as HTMLElement)))
     ) {
       event.preventDefault();
       event.stopPropagation();
@@ -1050,7 +1040,7 @@ export class ComboBox extends BaseComponent<IComboBoxProps, IComboBoxState> {
         gapSpace={0}
         doNotLayer={false}
         directionalHint={DirectionalHint.bottomLeftEdge}
-        directionalHintFixed={false}
+        directionalHintFixed={true}
         {...calloutProps}
         className={css(this._classNames.callout, calloutProps ? calloutProps.className : undefined)}
         target={this._comboBoxWrapper.current}
@@ -1337,12 +1327,16 @@ export class ComboBox extends BaseComponent<IComboBoxProps, IComboBoxState> {
    * Handles dismissing (cancelling) the menu
    */
   private _onDismiss = (): void => {
-    // close the menu
-    this._setOpenStateAndFocusOnClose(false /* isOpen */, false /* focusInputAfterClose */);
-
     // reset the selected index
-    // to the last value state
+    // to the last valud state
     this._resetSelectedIndex();
+
+    // close the menu and focus the input
+    this.setState({ isOpen: false });
+
+    if (this._autofill.current && this._focusInputAfterClose) {
+      this._autofill.current.focus();
+    }
   };
 
   /**
@@ -1512,9 +1506,9 @@ export class ComboBox extends BaseComponent<IComboBoxProps, IComboBoxState> {
     }
 
     // Notify when there is a new pending index/value. Also, if there is a pending value, it needs to send undefined.
-    if (newPendingIndex !== undefined || newPendingValue !== undefined || this._hasPendingValue) {
+    if (newPendingIndex !== undefined || newPendingValue || this._hasPendingValue) {
       onPendingValueChanged(
-        newPendingIndex !== undefined ? currentOptions[newPendingIndex] : undefined,
+        newPendingIndex ? currentOptions[newPendingIndex] : undefined,
         newPendingIndex,
         newPendingValue
       );
@@ -1816,7 +1810,6 @@ export class ComboBox extends BaseComponent<IComboBoxProps, IComboBoxState> {
 
     if (!disabled) {
       this._setOpenStateAndFocusOnClose(!isOpen, false /* focusInputAfterClose */);
-      this.setState({ focused: true });
     }
   };
 
